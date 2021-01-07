@@ -13,18 +13,44 @@ for x in data:
 ```
 
 # 특정 조건을 가진 정렬
+## sort()
+* 리스트에서 제공해주는 메서드
+* 기존 리스트를 변형 O, return값 X
+```python
+# 첫 번째 값에서 오름차순 --> 두 번째 값에서 내림차순
+target = [[1, 2], [3, 1], [2, 6], [4, 5], [3, 3]]
+target.sort(key=lambda x: (x[0], -x[1]))
+```
+
+## sorted()
+* 내장함수
+* sorted(iterable type, key, reverse)
+* 기존 iterable type을 변형 X, return값 O
+```python
+# 첫 번째 값에서 오름차순 --> 두 번째 값에서 내림차순
+target = {
+    1: [1, 2],
+    3: [3, 1],
+    2: [2, 6],
+    4: [4, 5],
+    5: [3, 3]
+}
+
+a = sorted(target.items(), key=lambda x:(x[1][0], -x[1][1]))
+```
 ```python
 student_tuples = [
     ('john', 'A', 15),
     ('jane', 'B', 12),
     ('dave', 'B', 10),
 ]
-sorted(student_tuples, key=lambda student: student[2])   # sort by age
+student_tuples = sorted(student_tuples, key=lambda student: student[2])   # sort by age
 
 
 # return: [('dave', 'B', 10), ('jane', 'B', 12), ('john', 'A', 15)]
 ```
-Reference) 정렬 HOW TO [[link]](https://docs.python.org/ko/3/howto/sorting.html)
+Reference) 정렬 HOW TO [[link]](https://docs.python.org/ko/3/howto/sorting.html) <br>
+Reference) Python 리스트, 딕셔너리 sort(), sorted() 사용하기 [[link]](https://brownbears.tistory.com/484)
 
 
 
@@ -88,3 +114,40 @@ b.sort()
 # 지도를 리스트로 표현할 때
 (1, 1)부터 시작하고 0의 index를 갖는 데이터들의 활용도가 없을 때(예: 벽으로 막혀져 있다) (0, 0)부터 제어하는 것보단 다음과 같은 방법이 직관적일 수 있다.<br>
 가로 및 세로 크기를 1씩 늘린 list를 생성 후 (1, 1)부터 제어하는 방식을 사용한다.
+
+
+
+# deepcopy
+* 변수는 객체를 가리킨다.
+```python
+# 컴퓨터 메모리에 10이라는 값이 저장되고 num은 10이 저장된 메모리의 위치를 가리킨다.
+# 10이라는 정수형 객체를 num이라는 변수가 가리키고 있는 것이다.
+
+num = 10
+```
+* mutable: 값이 변한다.
+* immutable: 값이 변하지 않는다.
+
+|class|설명|구분|
+|---|---|---|
+|list|mutable한 순서가 있는 객체 집합|mutable|
+|set|mutable한 순서가 없는 고유한 객체 집합|mutable|
+|dict|key와 value가 맵핑된 객체, 순서 없음|mutable|
+|bool|참, 거짓|immutable|
+|int|정수|immutable|
+|float|실수|immutable|
+|tuple|immutable한 순서가 있는 객체 집합|immutable|
+|str|문자열|immutable|
+
+mutable한 변수를 독립적으로 사용하기 위해서는 얕은 복사(copy)가 아닌 깊은 복사(deepcopy)를 사용해야 한다.
+```python
+import copy
+test = [1,2,3]
+same_test = copy.copy(test) # swallow copy
+differ_test = copy.deepcopy(test)   # deep copy
+
+warn_test = test[:] # 해당 경우도 deep copy에 해당하지만, list 안에 mutable한 객체가 존재할 경우 문제가 될 수 있다.
+
+```
+Reference) 12. 얕은 복사(shallow copy)와 깊은 복사(deep copy) [[link]](https://suwoni-codelab.com/python%20%EA%B8%B0%EB%B3%B8/2018/03/02/Python-Basic-copy/) [[link]](https://wikidocs.net/16038) <br>
+Reference) [Python 변수] mutable과 immutable의 차이 [[link]](https://ledgku.tistory.com/54)
